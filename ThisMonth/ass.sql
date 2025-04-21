@@ -1,4 +1,4 @@
--- Active: 1744691181499@@172.20.10.4@1433@DBS_Ass
+-- Active: 1744989381097@@172.20.10.4@1433@DBS_Ass
 
 -- Get all tables
 SELECT * FROM information_schema.tables;
@@ -22,8 +22,8 @@ Create Table Patient (
     PaymentCardNumber varchar(20),
     PaymentCardPinCode varchar(20)
 );
-
-SELECT * FROM Patient
+SELECT * FROM Patient;
+SELECT PID, PPassportNumber, PaymentCardNumber FROM Patient_Encrypted;
 
 Create Table Prescription (
     PresID int identity(1, 1) primary key,
@@ -178,11 +178,18 @@ CREATE ROLE Admins;
 -- Get all roles
 SELECT * FROM sys.database_principals WHERE type = 'R';
 
+-- GET all users
+SELECT * FROM sys.database_principals WHERE type IN ('S', 'U');
 
 -- GET ALL PROCEDURE
 SELECT * FROM information_schema.routines WHERE routine_type = 'PROCEDURE';
 
-
-EXECUTE AS USER = 'ST001';
-SELECT * FROM dbo."DoctorAppointmentsView";
-REVERT;
+-- GRANT Admins to be able to perform all actions
+GRANT SELECT, INSERT, UPDATE, DELETE ON Staff TO Admins;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Patient TO Admins;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Prescription TO Admins;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Medicine TO Admins;
+GRANT SELECT, INSERT, UPDATE, DELETE ON PrescriptionMedicine TO Admins;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Appointment TO Admins;
+GRANT SELECT, INSERT, UPDATE, DELETE ON PatientKeys TO Admins;
+GRANT SELECT, INSERT, UPDATE, DELETE ON StaffKeys TO Admins;
