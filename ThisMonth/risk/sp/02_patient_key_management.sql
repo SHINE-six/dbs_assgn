@@ -83,7 +83,7 @@ BEGIN
     -- If PID not provided, extract from SYSTEM_USER
     IF @PID IS NULL
     BEGIN
-        SET @PID = SYSTEM_USER;
+        SET @PID = USER_NAME();
         -- Check if SYSTEM_USER is a valid patient ID format
         IF SUBSTRING(@PID, 1, 2) != 'PT' OR ISNUMERIC(SUBSTRING(@PID, 3, LEN(@PID)-2)) = 0
         BEGIN
